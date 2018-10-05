@@ -1,3 +1,4 @@
+# sum function
 def sum(m, n):
     i = 0
 
@@ -14,7 +15,7 @@ def sum(m, n):
 
     return m
 
-
+# divide function
 def divide(m, n):
 
     i = 0
