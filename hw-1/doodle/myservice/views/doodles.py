@@ -55,7 +55,6 @@ def person_poll(id, person):
         result = jsonify(votedoptions=_ACTIVEPOLLS[id].get_voted_options(person))
 
     if request.method == 'DELETE':
-        #firstly, check if the specified doodle
         cur_poll = _ACTIVEPOLLS[id]
 
         voted_options = cur_poll.get_voted_options(person)
@@ -75,18 +74,16 @@ def vote(id, request):
     result = ""
     request_data = request.get_json()
 
-    try:
-        person = request_data['person']
-        option = request_data['option']
-        # invalid input type provided
-        if type(person) is not str:
-            raise NonExistingOptionException("You have entered an invalid data structure as person. Please, provide a string.")
-        if type(option) is not str:
-            raise NonExistingOptionException("You have entered an invalid data structure as option. Please, provide a string.")
-        # invalid option provided (i.e: not a proper day of the week)
 
-    except NonExistingOptionException:
-        abort(400)  # Rest API could not map this request to a resource
+    person = request_data['person']
+    option = request_data['option']
+    # invalid input type provided
+    if type(person) is not str:
+        #invalid data structure provided for 'person'
+        abort(400)
+    if type(option) is not str:
+        #invalid data structure for 'option'
+        abort(400)
 
     try:
         # actually cast the vote
@@ -111,11 +108,12 @@ def create_doodle(request):
 
 
     if not type(options) is list:
-        raise NonExistingOptionException("You have entered an invalid data structure as options. Please, provide a list.")
+        #invalid data structure as options.
+        abort(400)
 
     if not type(title) is str:
-        raise NonExistingOptionException("You have entered an invalid data structure as title. Please, provide a string.")
-
+        #invalid data structure as title
+        abort(400)
     #everything alright, then go ahead and actually create the poll!
 
     #now take the options and form an 'options dictionary'

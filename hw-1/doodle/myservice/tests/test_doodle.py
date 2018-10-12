@@ -333,6 +333,7 @@ class TestApp(unittest.TestCase):
         reply = app.delete('/doodles/1/fred')
         body = json.loads(str(reply.data, 'utf8'))
         self.assertEqual(body,{'removed': True})
+
         reply = app.get('/doodles/1/fred')
         body = json.loads(str(reply.data, 'utf8'))
         self.assertEqual(body,{'votedoptions':[]})
